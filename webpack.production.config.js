@@ -1,13 +1,14 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     devtool: 'eval-source-map',
     entry: __dirname + '/app/main.js',
     output: {
-        //path: __dirname + '/build',
-        path: __dirname + '/public',
-        filename: 'bundle.js'
+        path: __dirname + '/build',
+       // path: __dirname + '/public',
+        filename: "[name]-[hash].js"
+//        filename: 'bundle.js'
     },
     devServer: {
         contentBase: "./public",//本地服务器所加载的页面所在的目录
@@ -72,6 +73,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: __dirname + "/app/index.tmpl.html"//new 一个这个插件的实例，并传入相关的参数
-        })
+        }),
+     //   new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+  //  new ExtractTextPlugin("style.css")
+    new ExtractTextPlugin("[name]-[hash].css")
     ],
 }
